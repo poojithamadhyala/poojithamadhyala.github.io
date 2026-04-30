@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poojitha Madhyala — Robotics & AI Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #EE3F2C;
+  --red-dark: #c73320;
+  --black: #000000;
+  --white: #ffffff;
+  --gray: rgba(255,255,255,0.55);
+  --border: rgba(255,255,255,0.12);
+  --clip-btn: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+  --clip-sm: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Rubik', sans-serif;
+  background: #000;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-thumb { background: var(--red); }
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 64px;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+@media (max-width: 768px) { nav { padding: 16px 28px; } }
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.logo-text {
+  font-size: 20px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.logo-dot { color: var(--red); }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  list-style: none;
+}
+
+@media (max-width: 640px) { .nav-links { display: none; } }
+
+.nav-links a {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  transition: color 0.2s;
+  letter-spacing: 0.01em;
+}
+
+.nav-links a:hover { color: #fff; }
+
+.nav-cta {
+  background: var(--red) !important;
+  color: #fff !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  padding: 9px 20px;
+  clip-path: var(--clip-sm);
+  transition: background 0.2s !important;
+}
+
+.nav-cta:hover { background: var(--red-dark) !important; }
+
+/* ── HERO ── */
+#hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 640px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.video-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.video-bg video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+}
+
+/* Dark gradient only at bottom for text readability */
+.video-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.15) 0%,
+    transparent 40%,
+    rgba(0,0,0,0.5) 100%
+  );
+}
+
+.hero-nav-spacer { height: 80px; flex-shrink: 0; }
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 44px 64px 0;
+}
+
+@media (max-width: 768px) { .hero-content { padding: 36px 28px 0; } }
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--red);
+  margin-bottom: 18px;
+}
+
+.hero-tag::before {
+  content: '';
+  width: 20px;
+  height: 2px;
+  background: var(--red);
+}
+
+.hero-headline {
+  font-size: 72px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  color: #fff;
+  margin-bottom: 28px;
+  max-width: 640px;
+}
+
+@media (max-width: 768px) { .hero-headline { font-size: 42px; } }
+
+.hero-headline .line-red { color: var(--red); }
+
+.hero-sub {
+  font-size: 15px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.7);
+  max-width: 420px;
+  line-height: 1.6;
+  margin-bottom: 36px;
+}
+
+.hero-btns {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.btn-red {
+  display: inline-block;
+  background: var(--red);
+  color: #fff;
+  font-family: 'Rubik', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 14px 32px;
+  border: none;
+  cursor: pointer;
+  clip-path: var(--clip-btn);
+  transition: background 0.2s, transform 0.15s;
+  text-decoration: none;
+}
+
+.btn-red:hover { background: var(--red-dark); transform: translateY(-1px); }
+
+.btn-outline {
+  display: inline-block;
+  background: transparent;
+  color: #fff;
+  font-family: 'Rubik', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 13px 32px;
+  border: 1px solid rgba(255,255,255,0.35);
+  clip-path: var(--clip-btn);
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+  text-decoration: none;
+}
+
+.btn-outline:hover {
+  border-color: #fff;
+  background: rgba(255,255,255,0.08);
+  transform: translateY(-1px);
+}
+
+/* Bottom glass bar */
+.hero-bottom {
+  position: relative;
+  z-index: 10;
+  padding: 0 64px 36px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+@media (max-width: 768px) { .hero-bottom { padding: 0 28px 28px; } }
+
+.glass-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 22px;
+  border-radius: 3px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.04) 50%, rgba(255,255,255,0.08) 100%);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid var(--border);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -1px 0 rgba(0,0,0,0.2), 0 8px 32px rgba(0,0,0,0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(105deg, rgba(255,255,255,0.10) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.glass-label {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 3px;
+}
+
+.glass-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.btn-white {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: #fff;
+  color: #000;
+  font-family: 'Rubik', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 10px 18px;
+  border: none;
+  cursor: pointer;
+  clip-path: var(--clip-sm);
+  transition: background 0.2s, transform 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.btn-white:hover { background: #e8e8e8; transform: translateY(-1px); }
+
+.hero-scroll {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.35);
+  writing-mode: vertical-rl;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero-scroll::before {
+  content: '';
+  width: 1px;
+  height: 40px;
+  background: rgba(255,255,255,0.2);
+}
+
+@media (max-width: 768px) { .hero-scroll { display: none; } }
+
+/* ── SECTIONS ── */
+.section {
+  padding: 96px 64px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) { .section { padding: 72px 28px; } }
+
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--red);
+  margin-bottom: 14px;
+}
+
+.section-tag::before { content: ''; width: 16px; height: 2px; background: var(--red); }
+
+.section-title {
+  font-size: 48px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: #fff;
+  margin-bottom: 56px;
+}
+
+@media (max-width: 768px) { .section-title { font-size: 32px; } }
+
+.section-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.06);
+  margin: 0 64px;
+}
+
+@media (max-width: 768px) { .section-divider { margin: 0 28px; } }
+
+/* ── ABOUT ── */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+@media (max-width: 900px) { .about-grid { grid-template-columns: 1fr; gap: 48px; } }
+
+.about-text p {
+  font-size: 15px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.about-text strong { color: #fff; font-weight: 700; }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+
+.stat-box {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  padding: 28px 24px;
+  transition: border-color 0.2s;
+}
+
+.stat-box:hover { border-color: var(--red); }
+
+.stat-num {
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--red);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.stat-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.4);
+}
+
+/* ── SKILLS ── */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2px;
+}
+
+.skill-block {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.07);
+  padding: 28px 24px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.skill-block:hover {
+  border-color: rgba(238,63,44,0.4);
+  background: rgba(238,63,44,0.04);
+}
+
+.skill-block-title {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--red);
+  margin-bottom: 18px;
+}
+
+.skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.stag {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.04);
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.stag:hover { border-color: rgba(238,63,44,0.5); color: #fff; }
+
+/* ── PROJECTS ── */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+}
+
+@media (max-width: 900px) { .projects-grid { grid-template-columns: 1fr; } }
+
+.project-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.07);
+  overflow: hidden;
+  transition: border-color 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-card:hover { border-color: rgba(238,63,44,0.4); }
+
+.project-card.featured {
+  grid-column: span 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 900px) {
+  .project-card.featured {
+    grid-column: span 1;
+    grid-template-columns: 1fr;
+  }
+}
+
+.project-vis {
+  background: rgba(255,255,255,0.02);
+  padding: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card.featured .project-vis {
+  border-bottom: none;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  min-height: 280px;
+}
+
+@media (max-width: 900px) {
+  .project-card.featured .project-vis {
+    border-right: none;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+}
+
+.project-vis svg { width: 100%; max-height: 160px; height: auto; }
+
+.project-body { padding: 28px 28px 28px; flex: 1; display: flex; flex-direction: column; }
+
+.project-type {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--red);
+  margin-bottom: 10px;
+}
+
+.project-name {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+
+.project-desc {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.65;
+  flex: 1;
+  margin-bottom: 18px;
+}
+
+.project-metric {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--red);
+  background: rgba(238,63,44,0.08);
+  border: 1px solid rgba(238,63,44,0.25);
+  padding: 6px 14px;
+  clip-path: var(--clip-sm);
+  display: inline-block;
+  margin-bottom: 18px;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+
+.ptag {
+  font-size: 10px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border: 1px solid rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.4);
+  background: transparent;
+}
+
+.project-links { display: flex; gap: 10px; margin-top: auto; }
+
+.plink {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #fff;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 8px 18px;
+  clip-path: var(--clip-sm);
+  transition: all 0.2s;
+}
+
+.plink:hover { border-color: #fff; background: rgba(255,255,255,0.06); }
+
+.plink.red { color: var(--red); border-color: rgba(238,63,44,0.4); background: rgba(238,63,44,0.06); }
+.plink.red:hover { border-color: var(--red); background: rgba(238,63,44,0.12); }
+
+/* ── CONTACT ── */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+}
+
+@media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; gap: 48px; } }
+
+.contact-text p {
+  font-size: 15px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.contact-items { display: flex; flex-direction: column; gap: 2px; }
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.07);
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s;
+  gap: 16px;
+}
+
+.contact-item:hover {
+  border-color: rgba(238,63,44,0.4);
+  background: rgba(238,63,44,0.04);
+}
+
+.contact-item-left { display: flex; align-items: center; gap: 16px; }
+
+.contact-platform {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--red);
+  width: 72px;
+  flex-shrink: 0;
+}
+
+.contact-val {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.7);
+}
+
+.contact-arrow {
+  font-size: 16px;
+  color: rgba(255,255,255,0.2);
+  transition: color 0.2s, transform 0.2s;
+}
+
+.contact-item:hover .contact-arrow { color: var(--red); transform: translateX(3px); }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 28px 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: rgba(255,255,255,0.25);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 768px) {
+  footer { padding: 24px 28px; flex-direction: column; gap: 8px; text-align: center; }
+}
+
+footer span b { color: var(--red); font-weight: 700; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes flowLine {
+  from { stroke-dashoffset: 30; }
+  to   { stroke-dashoffset: 0; }
+}
+
+@keyframes blinkDot {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0.2; }
+}
+
+@keyframes scanLine {
+  0%   { transform: translateY(-10px); opacity: 0; }
+  10%  { opacity: 0.5; }
+  90%  { opacity: 0.5; }
+  100% { transform: translateY(90px); opacity: 0; }
+}
+
+.animate-hero > * {
+  opacity: 0;
+  animation: fadeUp 0.55s ease forwards;
+}
+
+.animate-hero > *:nth-child(1) { animation-delay: 0.1s; }
+.animate-hero > *:nth-child(2) { animation-delay: 0.25s; }
+.animate-hero > *:nth-child(3) { animation-delay: 0.4s; }
+.animate-hero > *:nth-child(4) { animation-delay: 0.55s; }
+.animate-hero > *:nth-child(5) { animation-delay: 0.7s; }
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+      <path d="M4 8L16 4L28 8V16C28 22 22 27 16 29C10 27 4 22 4 16V8Z" stroke="white" stroke-width="1.5"/>
+      <path d="M12 16L15 19L20 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="logo-text">Poojitha<span class="logo-dot">.</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="video-bg">
+    <video autoplay muted loop playsinline>
+      <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260227_042027_c4b2f2ea-1c7c-4d6e-9e3d-81a78063703f.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <div class="hero-nav-spacer"></div>
+
+  <div class="hero-content animate-hero">
+    <div class="hero-tag">MS Robotics & AI @ ASU · Tempe, Arizona</div>
+    <h1 class="hero-headline">
+      Robotics<br>& <span class="line-red">AI</span><br>Engineer
+    </h1>
+    <p class="hero-sub">
+      Building systems that move, see, and decide —
+      from warehouse digital twins to mobile computer vision models.
+    </p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-red">View Projects</a>
+      <a href="#contact" class="btn-outline">Get In Touch</a>
+    </div>
+  </div>
+
+  <div class="hero-bottom">
+    <div class="glass-card">
+      <div>
+        <div class="glass-label">Open To Opportunities</div>
+        <div class="glass-title">AI · Robotics ·<br>Autonomous Systems</div>
+      </div>
+      <a href="#contact" class="btn-white">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+        </svg>
+        Let's Talk
+      </a>
+    </div>
+    <div class="hero-scroll">Scroll</div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<div class="section-divider"></div>
+<div id="about" class="section">
+  <div class="reveal">
+    <div class="section-tag">About</div>
+    <div class="section-title">Who I Am</div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal reveal-delay-1">
+      <p>I'm a <strong>Robotics & AI Engineer</strong> pursuing my MS at Arizona State University,
+      building systems at the intersection of perception, intelligence, and physical action.</p>
+      <p>My work spans the full stack — from <strong>simulating factory workcells</strong> with
+      ROS 2 and live ML anomaly detection, to deploying <strong>real-time computer vision</strong>
+      models on mobile hardware with sub-50ms inference.</p>
+      <p>I believe great engineering is invisible. It just works, reliably, at scale.
+      I build with that principle in mind.</p>
+    </div>
+    <div class="stats-grid reveal reveal-delay-2">
+      <div class="stat-box">
+        <span class="stat-num">5+</span>
+        <span class="stat-label">Projects</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num">82%</span>
+        <span class="stat-label">Best mAP</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num">41ms</span>
+        <span class="stat-label">Inference</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num">ROS2</span>
+        <span class="stat-label">Robotics Stack</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<div class="section-divider"></div>
+<div id="skills" class="section">
+  <div class="reveal">
+    <div class="section-tag">Skills</div>
+    <div class="section-title">Tech Stack</div>
+  </div>
+  <div class="skills-grid reveal reveal-delay-1">
+    <div class="skill-block">
+      <div class="skill-block-title">Robotics</div>
+      <div class="skill-tags">
+        <span class="stag">ROS 2</span>
+        <span class="stag">Webots</span>
+        <span class="stag">UR5e</span>
+        <span class="stag">Robotiq</span>
+        <span class="stag">Digital Twin</span>
+        <span class="stag">MyCobot</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-block-title">AI & Vision</div>
+      <div class="skill-tags">
+        <span class="stag">PyTorch</span>
+        <span class="stag">YOLOv8</span>
+        <span class="stag">OpenCV</span>
+        <span class="stag">scikit-learn</span>
+        <span class="stag">ONNX</span>
+        <span class="stag">HuggingFace</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-block-title">MLOps & Deploy</div>
+      <div class="skill-tags">
+        <span class="stag">Docker</span>
+        <span class="stag">MLflow</span>
+        <span class="stag">FastAPI</span>
+        <span class="stag">Gradio</span>
+        <span class="stag">GitHub Actions</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-block-title">Languages</div>
+      <div class="skill-tags">
+        <span class="stag">Python</span>
+        <span class="stag">Kotlin</span>
+        <span class="stag">C++</span>
+        <span class="stag">JavaScript</span>
+        <span class="stag">SQL</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<div class="section-divider"></div>
+<div id="projects" class="section">
+  <div class="reveal">
+    <div class="section-tag">Projects</div>
+    <div class="section-title">What I've Built</div>
+  </div>
+
+  <div class="projects-grid">
+
+    <!-- Digital Twin — FEATURED -->
+    <div class="project-card featured reveal">
+      <div class="project-vis">
+        <svg viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <style>
+              @keyframes pf{from{stroke-dashoffset:20}to{stroke-dashoffset:0}}
+              @keyframes bd{0%,100%{opacity:1}50%{opacity:.2}}
+              .fl{stroke-dasharray:5 3;animation:pf .9s linear infinite}
+              .blink{animation:bd 1.4s ease-in-out infinite}
+            </style>
+          </defs>
+          <rect width="300" height="160" fill="#050505"/>
+          <rect x="110" y="72" width="170" height="18" rx="2" fill="#0d0d0d" stroke="#1a1a1a"/>
+          <line class="fl" x1="115" y1="81" x2="275" y2="81" stroke="#EE3F2C44" stroke-width="7" stroke-linecap="round"/>
+          <rect x="215" y="68" width="13" height="13" rx="1" fill="#EE3F2C" opacity=".85"/>
+          <rect x="237" y="68" width="13" height="13" rx="1" fill="#4488ff" opacity=".85"/>
+          <rect x="259" y="68" width="13" height="13" rx="1" fill="#ff8800" opacity=".85"/>
+          <line x1="88" y1="108" x2="88" y2="56" stroke="#00aaff" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="88" y1="56" x2="116" y2="47" stroke="#00aaff" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="116" y1="47" x2="121" y2="72" stroke="#00aaff" stroke-width="2" stroke-linecap="round"/>
+          <rect x="118" y="72" width="7" height="4" rx="1" fill="#00aaff"/>
+          <rect x="82" y="108" width="12" height="18" rx="1" fill="#111"/>
+          <rect x="14" y="93" width="20" height="17" rx="1" fill="#1a0000" stroke="#EE3F2C33"/>
+          <rect x="39" y="93" width="20" height="17" rx="1" fill="#00001a" stroke="#4444ff33"/>
+          <rect x="64" y="93" width="20" height="17" rx="1" fill="#1a0900" stroke="#ff880033"/>
+          <circle class="blink" cx="14" cy="16" r="2.5" fill="#EE3F2C"/>
+          <text x="21" y="20" font-family="monospace" font-size="7" fill="#EE3F2C77">ROS2 LIVE</text>
+          <circle class="blink" cx="14" cy="30" r="2.5" fill="#00aaff" style="animation-delay:.5s"/>
+          <text x="21" y="34" font-family="monospace" font-size="7" fill="#00aaff77">ML ACTIVE</text>
+          <polyline points="160,22 172,19 184,15 196,17 208,12 220,14 232,10 244,13 256,9" fill="none" stroke="#EE3F2C" stroke-width="1.2"/>
+          <line x1="160" y1="18" x2="256" y2="18" stroke="#EE3F2C22" stroke-width=".8" stroke-dasharray="3 3"/>
+        </svg>
+      </div>
+      <div class="project-body">
+        <div class="project-type">Robotics · ML · Full Stack</div>
+        <div class="project-name">Industrial Digital Twin</div>
+        <div class="project-desc">
+          Full-stack simulation of an Amazon-style warehouse workcell. UR5e + Robotiq gripper
+          picks color-coded boxes off a conveyor, with live Isolation Forest anomaly detection
+          and a real-time SCADA dashboard via ROS 2 WebSocket.
+        </div>
+        <span class="project-metric">◉ Live ROS 2 · Isolation Forest · rosbridge WebSocket</span>
+        <div class="project-tags">
+          <span class="ptag">ROS 2</span><span class="ptag">Webots</span><span class="ptag">UR5e</span>
+          <span class="ptag">Docker</span><span class="ptag">scikit-learn</span><span class="ptag">Chart.js</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/poojithamadhyala/-Industrial-Digital-Twin" target="_blank" class="plink red">GitHub →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pothole Detection -->
+    <div class="project-card reveal">
+      <div class="project-vis">
+        <svg viewBox="0 0 280 130" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <style>@keyframes sc{0%{opacity:0;transform:translateY(-5px)}10%{opacity:.6}90%{opacity:.6}100%{opacity:0;transform:translateY(85px)}}
+            .scl{animation:sc 2s linear infinite}</style>
+          </defs>
+          <rect width="280" height="130" fill="#050505"/>
+          <rect x="20" y="58" width="240" height="52" rx="3" fill="#0d0d0d" stroke="#1a1a1a"/>
+          <ellipse cx="80" cy="84" rx="20" ry="9" fill="#020202" stroke="#EE3F2C55" stroke-width="1.2"/>
+          <ellipse cx="200" cy="84" rx="15" ry="7" fill="#020202" stroke="#EE3F2C55" stroke-width="1.2"/>
+          <rect x="58" y="73" width="44" height="22" rx="1" fill="none" stroke="#EE3F2C" stroke-width="1.2" stroke-dasharray="4 2"/>
+          <text x="62" y="71" font-family="monospace" font-size="7" fill="#EE3F2C">pothole 0.94</text>
+          <rect x="183" y="75" width="34" height="17" rx="1" fill="none" stroke="#EE3F2C" stroke-width="1.2" stroke-dasharray="4 2"/>
+          <text x="185" y="73" font-family="monospace" font-size="7" fill="#EE3F2C">0.87</text>
+          <line class="scl" x1="20" y1="58" x2="260" y2="58" stroke="#EE3F2C" stroke-width="1.2"/>
+          <text x="20" y="20" font-family="monospace" font-size="9" fill="#EE3F2C">mAP: 82.2%</text>
+          <text x="110" y="20" font-family="monospace" font-size="9" fill="#888">inference: ~41ms</text>
+        </svg>
+      </div>
+      <div class="project-body">
+        <div class="project-type">Computer Vision · Mobile</div>
+        <div class="project-name">Pothole Detection AI</div>
+        <div class="project-desc">
+          Real-time road safety system using YOLOv8n. Detects potholes on-device,
+          logs GPS coordinates, and warns drivers via voice alerts. Deployed as Android app + PWA.
+        </div>
+        <span class="project-metric">82.2% mAP · ~41ms CPU inference</span>
+        <div class="project-tags">
+          <span class="ptag">YOLOv8</span><span class="ptag">Android/Kotlin</span>
+          <span class="ptag">ONNX</span><span class="ptag">GPS</span><span class="ptag">PWA</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/poojithamadhyala/Pothole-Detection" target="_blank" class="plink">GitHub →</a>
+          <a href="https://huggingface.co/spaces/poojithamadhyala/pothole-detection" target="_blank" class="plink red">Demo →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- MyCobot -->
+    <div class="project-card reveal">
+      <div class="project-vis">
+        <svg viewBox="0 0 280 130" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <style>@keyframes drawp{0%{stroke-dashoffset:250}100%{stroke-dashoffset:0}}
+            .dp{stroke-dasharray:250;animation:drawp 3s linear infinite}</style>
+          </defs>
+          <rect width="280" height="130" fill="#050505"/>
+          <rect x="28" y="18" width="102" height="94" rx="2" fill="none" stroke="#1a1a1a" stroke-width="7"/>
+          <line x1="54" y1="18" x2="54" y2="62" stroke="#1a1a1a" stroke-width="7"/>
+          <line x1="80" y1="50" x2="80" y2="112" stroke="#1a1a1a" stroke-width="7"/>
+          <line x1="54" y1="80" x2="104" y2="80" stroke="#1a1a1a" stroke-width="7"/>
+          <polyline class="dp" points="35,108 35,87 62,87 62,67 35,67 35,25 104,25 104,55 87,55 87,87 104,87 104,106"
+            fill="none" stroke="#EE3F2C" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="35" cy="108" r="4" fill="#EE3F2C"/>
+          <line x1="178" y1="108" x2="178" y2="60" stroke="#00aaff" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="178" y1="60" x2="216" y2="46" stroke="#00aaff" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="216" y1="46" x2="234" y2="70" stroke="#00aaff" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="234" cy="73" r="4" fill="#00aaff"/>
+          <rect x="172" y="108" width="12" height="14" rx="1" fill="#111"/>
+        </svg>
+      </div>
+      <div class="project-body">
+        <div class="project-type">Robotics · Computer Vision</div>
+        <div class="project-name">MyCobot Maze Solver</div>
+        <div class="project-desc">
+          Autonomous robot arm that solves physical mazes using CV-based detection,
+          pathfinding algorithms, inverse kinematics, and socket control.
+          Includes a full digital twin simulation.
+        </div>
+        <div class="project-tags">
+          <span class="ptag">ROS 2</span><span class="ptag">OpenCV</span>
+          <span class="ptag">Inv. Kinematics</span><span class="ptag">Python</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/poojithamadhyala/MyCobot-Maze-Solver" target="_blank" class="plink">GitHub →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Audio ML -->
+    <div class="project-card reveal">
+      <div class="project-vis">
+        <svg viewBox="0 0 280 130" xmlns="http://www.w3.org/2000/svg">
+          <rect width="280" height="130" fill="#050505"/>
+          <g opacity=".75">
+            <rect x="24" y="48" width="4" height="34" rx="2" fill="#EE3F2C"/>
+            <rect x="32" y="38" width="4" height="54" rx="2" fill="#EE3F2C"/>
+            <rect x="40" y="54" width="4" height="22" rx="2" fill="#EE3F2C"/>
+            <rect x="48" y="34" width="4" height="62" rx="2" fill="#EE3F2C"/>
+            <rect x="56" y="44" width="4" height="42" rx="2" fill="#EE3F2C"/>
+            <rect x="64" y="50" width="4" height="30" rx="2" fill="#EE3F2C"/>
+            <rect x="72" y="36" width="4" height="58" rx="2" fill="#EE3F2C"/>
+            <rect x="80" y="46" width="4" height="38" rx="2" fill="#EE3F2C"/>
+            <rect x="88" y="40" width="4" height="50" rx="2" fill="#EE3F2C"/>
+            <rect x="96" y="56" width="4" height="18" rx="2" fill="#EE3F2C"/>
+            <rect x="104" y="42" width="4" height="46" rx="2" fill="#EE3F2C"/>
+          </g>
+          <line x1="125" y1="65" x2="148" y2="65" stroke="#333" stroke-width="1.2"/>
+          <rect x="152" y="32" width="52" height="66" rx="3" fill="#0d0d0d" stroke="#EE3F2C33"/>
+          <text x="178" y="52" text-anchor="middle" font-family="monospace" font-size="8" fill="#EE3F2C">CNN</text>
+          <text x="178" y="66" text-anchor="middle" font-family="monospace" font-size="7" fill="#444">MFCC</text>
+          <text x="178" y="78" text-anchor="middle" font-family="monospace" font-size="7" fill="#444">features</text>
+          <line x1="206" y1="65" x2="225" y2="65" stroke="#333" stroke-width="1.2"/>
+          <rect x="228" y="50" width="38" height="30" rx="2" fill="#0a0a0a" stroke="#EE3F2C33"/>
+          <text x="247" y="63" text-anchor="middle" font-family="monospace" font-size="7" fill="#EE3F2C">event</text>
+          <text x="247" y="73" text-anchor="middle" font-family="monospace" font-size="7" fill="#EE3F2C">class</text>
+          <text x="145" y="18" font-family="monospace" font-size="7" fill="#55555599">ONNX · edge inference</text>
+        </svg>
+      </div>
+      <div class="project-body">
+        <div class="project-type">Audio ML · Edge Deployment</div>
+        <div class="project-name">Audio ML Pipeline</div>
+        <div class="project-desc">
+          Real-time audio event classification using MFCC feature extraction and CNN.
+          Optimized for low-latency inference and exported to ONNX for edge deployment.
+        </div>
+        <span class="project-metric">ONNX export · low-latency edge inference</span>
+        <div class="project-tags">
+          <span class="ptag">CNN</span><span class="ptag">MFCC</span>
+          <span class="ptag">ONNX</span><span class="ptag">PyTorch</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/poojithamadhyala/Audio-MachineLearning-pipeline" target="_blank" class="plink">GitHub →</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="section-divider"></div>
+<div id="contact" class="section">
+  <div class="reveal">
+    <div class="section-tag">Contact</div>
+    <div class="section-title">Let's Connect</div>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-text reveal reveal-delay-1">
+      <p>I'm actively looking for roles in <strong style="color:#fff">AI/ML, Robotics, and Autonomous Systems</strong>.
+      If you're working on something that moves, perceives, or decides — let's talk.</p>
+      <p>Based in Tempe, Arizona. Open to full-time, internship, and research roles.</p>
+      <br>
+      <a href="#projects" class="btn-red">View My Work</a>
+    </div>
+    <div class="contact-items reveal reveal-delay-2">
+      <a href="https://github.com/poojithamadhyala" target="_blank" class="contact-item">
+        <div class="contact-item-left">
+          <span class="contact-platform">GitHub</span>
+          <span class="contact-val">poojithamadhyala</span>
+        </div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://www.linkedin.com/in/poojitha-madhyala-038980323/" target="_blank" class="contact-item">
+        <div class="contact-item-left">
+          <span class="contact-platform">LinkedIn</span>
+          <span class="contact-val">Poojitha Madhyala</span>
+        </div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://huggingface.co/poojithamadhyala" target="_blank" class="contact-item">
+        <div class="contact-item-left">
+          <span class="contact-platform">HuggingFace</span>
+          <span class="contact-val">poojithamadhyala</span>
+        </div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://youtu.be/j16wN9h2V9I" target="_blank" class="contact-item">
+        <div class="contact-item-left">
+          <span class="contact-platform">YouTube</span>
+          <span class="contact-val">Project Demo Videos</span>
+        </div>
+        <span class="contact-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span><b>Poojitha Madhyala</b> · Robotics & AI Engineer</span>
+  <span>MS @ Arizona State University · Tempe, AZ</span>
+</footer>
+
+<script>
+// Scroll reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

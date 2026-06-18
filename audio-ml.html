@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Audio ML Pipeline — Poojitha Madhyala</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#060810;--bg2:#0c0f1a;--bg3:#111525;
+    --accent:#00e5ff;--accent2:#7b61ff;
+    --text:#e8eaf0;--muted:#6b7280;
+    --border:rgba(255,255,255,0.07);--card-bg:rgba(255,255,255,0.03);
+    --font:'Space Grotesk',sans-serif;--mono:'Space Mono',monospace;
+  }
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--font);overflow-x:hidden;line-height:1.6}
+  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,229,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,0.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.25rem 3rem;background:rgba(6,8,16,0.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+  .nav-logo{font-family:var(--mono);font-size:0.85rem;color:var(--accent);letter-spacing:0.1em;text-decoration:none}
+  .nav-back{display:flex;align-items:center;gap:0.5rem;font-family:var(--mono);font-size:0.8rem;color:var(--muted);text-decoration:none;letter-spacing:0.06em;transition:color 0.2s}
+  .nav-back:hover{color:var(--accent)}
+  .project-hero{margin-top:65px;padding:5rem 3rem 4rem;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+  .hero-grid-bg{position:absolute;inset:0;pointer-events:none}
+  .hero-inner{position:relative;z-index:1;max-width:1100px}
+  .hero-eyebrow{display:flex;align-items:center;gap:0.75rem;font-family:var(--mono);font-size:0.75rem;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:1.5rem;opacity:0;animation:fadeUp 0.6s ease forwards 0.2s}
+  .hero-eyebrow::before{content:'';display:inline-block;width:24px;height:1px}
+  .project-hero h1{font-size:clamp(2rem,4.5vw,3.5rem);font-weight:700;letter-spacing:-0.03em;line-height:1.05;margin-bottom:1.25rem;opacity:0;animation:fadeUp 0.7s ease forwards 0.35s}
+  .project-hero>div>p{font-size:1.05rem;color:rgba(232,234,240,0.65);max-width:580px;line-height:1.75;margin-bottom:2rem;opacity:0;animation:fadeUp 0.7s ease forwards 0.5s}
+  .hero-meta{display:flex;gap:1.5rem;flex-wrap:wrap;opacity:0;animation:fadeUp 0.7s ease forwards 0.65s}
+  .meta-item{display:flex;align-items:center;gap:0.5rem;font-family:var(--mono);font-size:0.75rem;color:rgba(232,234,240,0.5);letter-spacing:0.08em}
+  .meta-dot{width:6px;height:6px;border-radius:50%}
+  .page-body{max-width:1100px;margin:0 auto;padding:4rem 3rem;display:grid;grid-template-columns:1fr 380px;gap:3.5rem;align-items:start;position:relative;z-index:1}
+  .left-col{display:flex;flex-direction:column;gap:3rem}
+  .block-label{font-family:var(--mono);font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:0.6rem}
+  .block-label::before{content:'';display:inline-block;width:20px;height:1px}
+  .block-title{font-size:1.3rem;font-weight:600;letter-spacing:-0.01em;margin-bottom:1.25rem}
+  .demo-container{border:1px solid var(--border);position:relative;overflow:hidden;background:#000;display:flex;align-items:center;justify-content:center}
+  .demo-container img,.demo-container video{width:100%;display:block;object-fit:contain}
+  .demo-overlay{position:absolute;bottom:0;left:0;right:0;padding:1rem 1.25rem;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,transparent 100%);display:flex;justify-content:space-between;align-items:flex-end}
+  .demo-tag{font-family:var(--mono);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase}
+  .demo-stats{display:flex;gap:1rem}
+  .demo-stat{font-family:var(--mono);font-size:0.7rem;color:rgba(255,255,255,0.5)}
+  .demo-caption{margin-top:0.75rem;font-size:0.82rem;color:var(--muted);font-family:var(--mono);letter-spacing:0.04em}
+  .features-list{display:flex;flex-direction:column;gap:0}
+  .feature-item{border:1px solid var(--border);border-bottom:none;overflow:hidden}
+  .feature-item:last-child{border-bottom:1px solid var(--border)}
+  .feature-header{display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;cursor:pointer;transition:background 0.2s;user-select:none}
+  .feature-header:hover{background:var(--card-bg)}
+  .feature-arrow{font-family:var(--mono);font-size:0.7rem;transition:transform 0.25s;min-width:1rem}
+  .feature-item.open .feature-arrow{transform:rotate(90deg)}
+  .feature-title{font-size:0.92rem;font-weight:500}
+  .feature-body{max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 1.25rem}
+  .feature-item.open .feature-body{max-height:200px;padding:0 1.25rem 1rem}
+  .feature-body p{font-size:0.85rem;color:var(--muted);line-height:1.7;border-left:2px solid;padding-left:0.85rem}
+  .impl-list{display:flex;flex-direction:column;gap:0.75rem}
+  .impl-item{background:var(--card-bg);border:1px solid var(--border);padding:1rem 1.25rem;display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:start;transition:border-color 0.2s}
+  .impl-icon{font-family:var(--mono);font-size:0.7rem;padding-top:2px;letter-spacing:0.05em}
+  .impl-text strong{display:block;font-size:0.87rem;font-weight:600;margin-bottom:0.25rem}
+  .impl-text span{font-size:0.8rem;color:var(--muted);line-height:1.6}
+  .right-col{display:flex;flex-direction:column;gap:1.5rem;position:sticky;top:90px}
+  .sidebar-card{background:var(--card-bg);border:1px solid var(--border);padding:1.5rem}
+  .sidebar-card-title{font-size:1rem;font-weight:600;margin-bottom:1.25rem;padding-bottom:0.75rem;border-bottom:1px solid var(--border)}
+  .metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
+  .metric-cell{background:var(--bg2);padding:1rem;text-align:center}
+  .metric-val{font-family:var(--mono);font-size:1.6rem;font-weight:700;line-height:1;display:block}
+  .metric-key{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;display:block;margin-top:0.35rem}
+  .stack-tags{display:flex;flex-wrap:wrap;gap:0.5rem}
+  .arch-list{display:flex;flex-direction:column;gap:0}
+  .arch-item{display:flex;align-items:flex-start;gap:0.85rem;padding:0.75rem 0;border-bottom:1px solid var(--border)}
+  .arch-item:last-child{border-bottom:none}
+  .arch-num{font-family:var(--mono);font-size:0.7rem;min-width:1.5rem;padding-top:2px}
+  .arch-text{font-size:0.85rem;color:var(--muted);line-height:1.5}
+  .arch-text strong{color:var(--text);font-weight:500;display:block}
+  .link-btns{display:flex;flex-direction:column;gap:0.6rem}
+  .link-btn{display:flex;align-items:center;justify-content:space-between;padding:0.75rem 1rem;border:1px solid var(--border);text-decoration:none;font-family:var(--mono);font-size:0.78rem;color:var(--muted);letter-spacing:0.06em;transition:all 0.2s}
+  .page-footer{border-top:1px solid var(--border);padding:2rem 3rem;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1}
+  .page-footer p{font-family:var(--mono);font-size:0.75rem;color:var(--muted);letter-spacing:0.06em}
+  .footer-nav{display:flex;gap:1.5rem}
+  .footer-nav a{font-family:var(--mono);font-size:0.75rem;color:var(--muted);text-decoration:none;transition:color 0.2s}
+  .footer-nav a:hover{color:var(--accent)}
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+  .yt-wrapper{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border:1px solid var(--border)}
+  .yt-wrapper iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+  @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+  @media(max-width:900px){
+    nav{padding:1rem 1.5rem}
+    .project-hero{padding:4rem 1.5rem 3rem}
+    .page-body{grid-template-columns:1fr;padding:2.5rem 1.5rem}
+    .right-col{position:static}
+    .page-footer{padding:1.5rem;flex-direction:column;gap:1rem;text-align:center}
+  }
+  @media(prefers-reduced-motion:reduce){*{animation-duration:0.01ms!important;transition-duration:0.01ms!important}}
+</style>
+
+<style>
+  .project-hero{background:linear-gradient(135deg,#150a0a 0%,#1a0d0d 40%,#100c1a 100%)}
+  .project-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(248,113,113,0.1) 0%,transparent 60%);pointer-events:none}
+  .project-hero::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(248,113,113,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(248,113,113,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+  .hero-eyebrow{color:#f87171}.hero-eyebrow::before{background:#f87171}
+  .project-hero h1 span{color:#f87171}
+  .meta-dot{background:#f87171}
+  .block-label{color:#f87171}.block-label::before{background:#f87171}
+  .demo-tag{color:#f87171}
+  .feature-body p{border-color:#f87171}
+  .impl-icon{color:#f87171}
+  .impl-item:hover{border-color:rgba(248,113,113,0.3)}
+  .arch-num{color:#f87171}
+  .metric-val .unit{color:#f87171}
+  .stack-tag{font-family:var(--mono);font-size:0.72rem;padding:0.3rem 0.65rem;background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.2);color:#fca5a5;letter-spacing:0.04em}
+  .link-btn:hover{border-color:rgba(248,113,113,0.4);color:#f87171}
+  .link-btn.primary{border-color:rgba(248,113,113,0.4);color:#f87171}
+  .link-btn.primary:hover{background:rgba(248,113,113,0.1)}
+  .waveform{display:flex;align-items:center;gap:3px;height:80px;padding:1.5rem;background:#000;border:1px solid rgba(248,113,113,0.2);margin-bottom:1rem}
+  .bar{flex:1;border-radius:2px;background:#f87171;opacity:0.7;animation:wave 1.2s ease-in-out infinite}
+  @keyframes wave{0%,100%{transform:scaleY(0.3)}50%{transform:scaleY(1)}}
+  .mfcc-grid{display:grid;grid-template-columns:repeat(13,1fr);gap:2px;background:#000;border:1px solid rgba(248,113,113,0.2);padding:1rem}
+  .mfcc-cell{height:16px;border-radius:1px;background:rgba(248,113,113,var(--v,0.3))}
+  .pipeline-flow{display:flex;align-items:center;gap:0;margin:1rem 0;overflow-x:auto;padding-bottom:0.5rem}
+  .pipe-step{background:var(--card-bg);border:1px solid var(--border);padding:0.6rem 0.9rem;font-family:var(--mono);font-size:0.7rem;color:var(--muted);white-space:nowrap;flex-shrink:0}
+  .pipe-arrow{font-family:var(--mono);font-size:0.8rem;color:#f87171;padding:0 0.25rem;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">PM_</a>
+  <a href="index.html#projects" class="nav-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back to Portfolio
+  </a>
+</nav>
+
+<div class="project-hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Audio ML &middot; Edge Deployment</div>
+    <h1>Audio ML <span>Pipeline</span></h1>
+    <p>Real-time audio event classification using MFCC feature extraction and CNN. Optimized for low-latency inference and exported to ONNX for edge deployment on resource-constrained hardware.</p>
+    <div class="hero-meta">
+      <div class="meta-item"><span class="meta-dot"></span> MFCC Features</div>
+      <div class="meta-item"><span class="meta-dot"></span> CNN Classifier</div>
+      <div class="meta-item"><span class="meta-dot"></span> ONNX Export</div>
+      <div class="meta-item"><span class="meta-dot"></span> Edge Inference</div>
+    </div>
+  </div>
+</div>
+
+<div class="page-body">
+  <div class="left-col">
+
+    <div class="reveal">
+      <div class="block-label">Visual Demo</div>
+      <div class="block-title">Audio Processing Pipeline</div>
+      <div class="waveform" id="waveform" aria-hidden="true"></div>
+      <div class="pipeline-flow">
+        <div class="pipe-step">Raw Audio</div><div class="pipe-arrow">&rarr;</div>
+        <div class="pipe-step">Framing</div><div class="pipe-arrow">&rarr;</div>
+        <div class="pipe-step">FFT</div><div class="pipe-arrow">&rarr;</div>
+        <div class="pipe-step">Mel Filter</div><div class="pipe-arrow">&rarr;</div>
+        <div class="pipe-step">MFCC (13)</div><div class="pipe-arrow">&rarr;</div>
+        <div class="pipe-step">CNN</div><div class="pipe-arrow">&rarr;</div>
+        <div class="pipe-step">Event Class</div>
+      </div>
+      <div style="margin-top:1rem">
+        <div class="block-label" style="margin-bottom:0.75rem">MFCC Feature Map (13 coefficients)</div>
+        <div class="mfcc-grid" id="mfccGrid" aria-hidden="true"></div>
+      </div>
+      <p class="demo-caption">// Animated MFCC feature extraction — 13 coefficients captured per audio frame for CNN classification</p>
+    </div>
+
+    <div class="reveal">
+      <div class="block-label">Capabilities</div>
+      <div class="block-title">Key Features</div>
+      <div class="features-list">
+        <div class="feature-item open">
+          <div class="feature-header" onclick="toggleFeature(this)"><span class="feature-arrow" style="color:#f87171">▶</span><span class="feature-title">MFCC Feature Extraction</span></div>
+          <div class="feature-body"><p>Mel-Frequency Cepstral Coefficients capture the perceptually-relevant spectral shape of audio events. 13 coefficients per frame encode enough information for accurate event classification while keeping the feature vector compact.</p></div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-header" onclick="toggleFeature(this)"><span class="feature-arrow" style="color:#f87171">▶</span><span class="feature-title">CNN Audio Classifier</span></div>
+          <div class="feature-body"><p>Convolutional neural network processes the 2D MFCC spectrogram. Conv layers learn frequency-temporal patterns distinctive to each audio event class — more robust to background noise than simpler approaches.</p></div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-header" onclick="toggleFeature(this)"><span class="feature-arrow" style="color:#f87171">▶</span><span class="feature-title">ONNX Export for Edge</span></div>
+          <div class="feature-body"><p>Trained PyTorch model exported to ONNX format. ONNX Runtime enables inference on edge hardware without PyTorch dependency — dramatically reducing deployment footprint for embedded systems.</p></div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-header" onclick="toggleFeature(this)"><span class="feature-arrow" style="color:#f87171">▶</span><span class="feature-title">Low-Latency Inference</span></div>
+          <div class="feature-body"><p>Optimized preprocessing pipeline minimizes per-frame overhead. ONNX Runtime session reuse eliminates initialization cost on repeated inference — enabling real-time classification at target throughput.</p></div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-header" onclick="toggleFeature(this)"><span class="feature-arrow" style="color:#f87171">▶</span><span class="feature-title">End-to-End ML Pipeline</span></div>
+          <div class="feature-body"><p>Complete pipeline from raw audio to classification: data loading, augmentation, MFCC extraction, CNN training, evaluation, and ONNX export — all reproducible from a single codebase.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="block-label">How It Works</div>
+      <div class="block-title">Technical Implementation</div>
+      <div class="impl-list">
+        <div class="impl-item"><span class="impl-icon" style="color:#f87171">[01]</span><div class="impl-text"><strong>Audio Preprocessing</strong><span>Raw waveforms resampled to 22050 Hz. Framed into overlapping windows with 50% hop. Hann window applied before FFT to reduce spectral leakage.</span></div></div>
+        <div class="impl-item"><span class="impl-icon" style="color:#f87171">[02]</span><div class="impl-text"><strong>MFCC Extraction</strong><span>FFT magnitude fed through 40-band Mel filterbank. Log-Mel energies transformed via DCT to 13 MFCCs per frame. Delta and delta-delta coefficients appended for temporal dynamics.</span></div></div>
+        <div class="impl-item"><span class="impl-icon" style="color:#f87171">[03]</span><div class="impl-text"><strong>CNN Architecture</strong><span>4-layer CNN: Conv2D → BatchNorm → ReLU → MaxPool repeated twice, followed by global average pooling and fully-connected classifier head. Dropout for regularization.</span></div></div>
+        <div class="impl-item"><span class="impl-icon" style="color:#f87171">[04]</span><div class="impl-text"><strong>Training Pipeline</strong><span>PyTorch training loop with Adam optimizer, cross-entropy loss, cosine LR schedule. Data augmentation: time-stretch, pitch-shift, additive noise for robustness.</span></div></div>
+        <div class="impl-item"><span class="impl-icon" style="color:#f87171">[05]</span><div class="impl-text"><strong>ONNX Deployment</strong><span>torch.onnx.export with dynamic axes for variable-length input. ONNX Runtime inference session with graph optimizations enabled — ready for Raspberry Pi, Jetson, or any edge target.</span></div></div>
+      </div>
+    </div>
+
+  </div>
+  <div class="right-col">
+    <div class="sidebar-card reveal">
+      <div class="sidebar-card-title">Pipeline Specs</div>
+      <div class="metrics-grid">
+        <div class="metric-cell"><span class="metric-val">13<span class="unit" style="color:#f87171"></span></span><span class="metric-key">MFCC Coeffs</span></div>
+        <div class="metric-cell"><span class="metric-val">4<span class="unit" style="color:#f87171">L</span></span><span class="metric-key">CNN Layers</span></div>
+        <div class="metric-cell"><span class="metric-val">RT<span class="unit" style="color:#f87171"></span></span><span class="metric-key">Inference</span></div>
+        <div class="metric-cell"><span class="metric-val">ONNX<span class="unit" style="color:#f87171"></span></span><span class="metric-key">Export</span></div>
+      </div>
+    </div>
+    <div class="sidebar-card reveal">
+      <div class="sidebar-card-title">Tech Stack</div>
+      <div class="stack-tags">
+        <span class="stack-tag">PyTorch</span><span class="stack-tag">ONNX</span><span class="stack-tag">librosa</span><span class="stack-tag">CNN</span><span class="stack-tag">MFCC</span><span class="stack-tag">NumPy</span><span class="stack-tag">ONNX Runtime</span><span class="stack-tag">Python</span>
+      </div>
+    </div>
+    <div class="sidebar-card reveal">
+      <div class="sidebar-card-title">System Architecture</div>
+      <div class="arch-list">
+        <div class="arch-item"><span class="arch-num" style="color:#f87171">01</span><div class="arch-text"><strong>Preprocessing Layer</strong>Resample → frame → FFT → Mel filterbank → MFCC</div></div>
+        <div class="arch-item"><span class="arch-num" style="color:#f87171">02</span><div class="arch-text"><strong>Feature Layer</strong>13 MFCCs + deltas → 2D spectrogram input</div></div>
+        <div class="arch-item"><span class="arch-num" style="color:#f87171">03</span><div class="arch-text"><strong>Model Layer</strong>4-layer CNN → global avg pool → softmax</div></div>
+        <div class="arch-item"><span class="arch-num" style="color:#f87171">04</span><div class="arch-text"><strong>Deploy Layer</strong>ONNX export → ORT session → edge inference</div></div>
+      </div>
+    </div>
+    <div class="sidebar-card reveal">
+      <div class="sidebar-card-title">Project Links</div>
+      <div class="link-btns">
+        <a href="https://github.com/poojithamadhyala/Audio-MachineLearning-pipeline" class="link-btn primary" target="_blank"><span>GitHub Repository</span><span>&rarr;</span></a>
+        <a href="index.html#projects" class="link-btn"><span>&larr; All Projects</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page-footer">
+  <p>Poojitha Madhyala &middot; Robotics &amp; AI Engineer</p>
+  <nav class="footer-nav" aria-label="Footer navigation">
+    <a href="index.html#about">About</a>
+    <a href="index.html#projects">Projects</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+</div>
+
+
+<script>
+  function toggleFeature(h){h.parentElement.classList.toggle('open')}
+  const obs=new IntersectionObserver((es)=>{es.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*60);obs.unobserve(e.target)}})},{threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+
+<script>
+  // Waveform animation
+  const wf = document.getElementById('waveform');
+  for(let i=0;i<48;i++){
+    const b=document.createElement('div');
+    b.className='bar';
+    b.style.animationDelay=(Math.random()*1.2)+'s';
+    b.style.height=(20+Math.random()*60)+'%';
+    wf.appendChild(b);
+  }
+  // MFCC grid animation
+  const grid=document.getElementById('mfccGrid');
+  const cells=[];
+  for(let r=0;r<8;r++){
+    for(let c=0;c<13;c++){
+      const cell=document.createElement('div');
+      cell.className='mfcc-cell';
+      cell.style.setProperty('--v', (Math.random()*0.8+0.1).toFixed(2));
+      grid.appendChild(cell);
+      cells.push(cell);
+    }
+  }
+  setInterval(()=>{
+    cells.forEach(c=>c.style.setProperty('--v',(Math.random()*0.8+0.1).toFixed(2)));
+  },800);
+</script>
+</body></html>

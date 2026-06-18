@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Pothole Detection AI — Poojitha Madhyala</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#060810;--bg2:#0c0f1a;--bg3:#111525;
+    --accent:#00e5ff;--accent2:#7b61ff;
+    --text:#e8eaf0;--muted:#6b7280;
+    --border:rgba(255,255,255,0.07);--card-bg:rgba(255,255,255,0.03);
+    --font:'Space Grotesk',sans-serif;--mono:'Space Mono',monospace;
+  }
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--font);overflow-x:hidden;line-height:1.6}
+  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,229,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,0.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.25rem 3rem;background:rgba(6,8,16,0.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+  .nav-logo{font-family:var(--mono);font-size:0.85rem;color:var(--accent);letter-spacing:0.1em;text-decoration:none}
+  .nav-back{display:flex;align-items:center;gap:0.5rem;font-family:var(--mono);font-size:0.8rem;color:var(--muted);text-decoration:none;letter-spacing:0.06em;transition:color 0.2s}
+  .nav-back:hover{color:var(--accent)}
+  .project-hero{margin-top:65px;padding:5rem 3rem 4rem;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+  .hero-grid-bg{position:absolute;inset:0;pointer-events:none}
+  .hero-inner{position:relative;z-index:1;max-width:1100px}
+  .hero-eyebrow{display:flex;align-items:center;gap:0.75rem;font-family:var(--mono);font-size:0.75rem;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:1.5rem;opacity:0;animation:fadeUp 0.6s ease forwards 0.2s}
+  .hero-eyebrow::before{content:'';display:inline-block;width:24px;height:1px}
+  .project-hero h1{font-size:clamp(2rem,4.5vw,3.5rem);font-weight:700;letter-spacing:-0.03em;line-height:1.05;margin-bottom:1.25rem;opacity:0;animation:fadeUp 0.7s ease forwards 0.35s}
+  .project-hero>div>p{font-size:1.05rem;color:rgba(232,234,240,0.65);max-width:580px;line-height:1.75;margin-bottom:2rem;opacity:0;animation:fadeUp 0.7s ease forwards 0.5s}
+  .hero-meta{display:flex;gap:1.5rem;flex-wrap:wrap;opacity:0;animation:fadeUp 0.7s ease forwards 0.65s}
+  .meta-item{display:flex;align-items:center;gap:0.5rem;font-family:var(--mono);font-size:0.75rem;color:rgba(232,234,240,0.5);letter-spacing:0.08em}
+  .meta-dot{width:6px;height:6px;border-radius:50%}
+  .page-body{max-width:1100px;margin:0 auto;padding:4rem 3rem;display:grid;grid-template-columns:1fr 380px;gap:3.5rem;align-items:start;position:relative;z-index:1}
+  .left-col{display:flex;flex-direction:column;gap:3rem}
+  .block-label{font-family:var(--mono);font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:0.6rem}
+  .block-label::before{content:'';display:inline-block;width:20px;height:1px}
+  .block-title{font-size:1.3rem;font-weight:600;letter-spacing:-0.01em;margin-bottom:1.25rem}
+  .demo-container{border:1px solid var(--border);position:relative;overflow:hidden;background:#000;display:flex;align-items:center;justify-content:center}
+  .demo-container img,.demo-container video{width:100%;display:block;object-fit:contain}
+  .demo-overlay{position:absolute;bottom:0;left:0;right:0;padding:1rem 1.25rem;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,transparent 100%);display:flex;justify-content:space-between;align-items:flex-end}
+  .demo-tag{font-family:var(--mono);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase}
+  .demo-stats{display:flex;gap:1rem}
+  .demo-stat{font-family:var(--mono);font-size:0.7rem;color:rgba(255,255,255,0.5)}
+  .demo-caption{margin-top:0.75rem;font-size:0.82rem;color:var(--muted);font-family:var(--mono);letter-spacing:0.04em}
+  .features-list{display:flex;flex-direction:column;gap:0}
+  .feature-item{border:1px solid var(--border);border-bottom:none;overflow:hidden}
+  .feature-item:last-child{border-bottom:1px solid var(--border)}
+  .feature-header{display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;cursor:pointer;transition:background 0.2s;user-select:none}
+  .feature-header:hover{background:var(--card-bg)}
+  .feature-arrow{font-family:var(--mono);font-size:0.7rem;transition:transform 0.25s;min-width:1rem}
+  .feature-item.open .feature-arrow{transform:rotate(90deg)}
+  .feature-title{font-size:0.92rem;font-weight:500}
+  .feature-body{max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 1.25rem}
+  .feature-item.open .feature-body{max-height:200px;padding:0 1.25rem 1rem}
+  .feature-body p{font-size:0.85rem;color:var(--muted);line-height:1.7;border-left:2px solid;padding-left:0.85rem}
+  .impl-list{display:flex;flex-direction:column;gap:0.75rem}
+  .impl-item{background:var(--card-bg);border:1px solid var(--border);padding:1rem 1.25rem;display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:start;transition:border-color 0.2s}
+  .impl-icon{font-family:var(--mono);font-size:0.7rem;padding-top:2px;letter-spacing:0.05em}
+  .impl-text strong{display:block;font-size:0.87rem;font-weight:600;margin-bottom:0.25rem}
+  .impl-text span{font-size:0.8rem;color:var(--muted);line-height:1.6}
+  .right-col{display:flex;flex-direction:column;gap:1.5rem;position:sticky;top:90px}
+  .sidebar-card{background:var(--card-bg);border:1px solid var(--border);padding:1.5rem}
+  .sidebar-card-title{font-size:1rem;font-weight:600;margin-bottom:1.25rem;padding-bottom:0.75rem;border-bottom:1px solid var(--border)}
+  .metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
+  .metric-cell{background:var(--bg2);padding:1rem;text-align:center}
+  .metric-val{font-family:var(--mono);font-size:1.6rem;font-weight:700;line-height:1;display:block}
+  .metric-key{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;display:block;margin-top:0.35rem}
+  .stack-tags{display:flex;flex-wrap:wrap;gap:0.5rem}
+  .arch-list{display:flex;flex-direction:column;gap:0}
+  .arch-item{display:flex;align-items:flex-start;gap:0.85rem;padding:0.75rem 0;border-bottom:1px solid var(--border)}
+  .arch-item:last-child{border-bottom:none}
+  .arch-num{font-family:var(--mono);font-size:0.7rem;min-width:1.5rem;padding-top:2px}
+  .arch-text{font-size:0.85rem;color:var(--muted);line-height:1.5}
+  .arch-text strong{color:var(--text);font-weight:500;display:block}
+  .link-btns{display:flex;flex-direction:column;gap:0.6rem}
+  .link-btn{display:flex;align-items:center;justify-content:space-between;padding:0.75rem 1rem;border:1px solid var(--border);text-decoration:none;font-family:var(--mono);font-size:0.78rem;color:var(--muted);letter-spacing:0.06em;transition:all 0.2s}
+  .page-footer{border-top:1px solid var(--border);padding:2rem 3rem;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1}
+  .page-footer p{font-family:var(--mono);font-size:0.75rem;color:var(--muted);letter-spacing:0.06em}
+  .footer-nav{display:flex;gap:1.5rem}
+  .footer-nav a{font-family:var(--mono);font-size:0.75rem;color:var(--muted);text-decoration:none;transition:color 0.2s}
+  .footer-nav a:hover{color:var(--accent)}
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+  .yt-wrapper{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border:1px solid var(--border)}
+  .yt-wrapper iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+  @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+  @media(max-width:900px){
+    nav{padding:1rem 1.5rem}
+    .project-hero{padding:4rem 1.5rem 3rem}
+    .page-body{grid-template-columns:1fr;padding:2.5rem 1.5rem}
+    .right-col{position:static}
+    .page-footer{padding:1.5rem;flex-direction:column;gap:1rem;text-align:center}
+  }
+  @media(prefers-reduced-motion:reduce){*{animation-duration:0.01ms!important;transition-duration:0.01ms!important}}
+</style>
+
+<style>
+  .project-hero{background:linear-gradient(135deg,#051a0a 0%,#081f12 40%,#0a1520 100%)}
+  .project-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(0,229,255,0.1) 0%,transparent 60%);pointer-events:none}
+  .project-hero::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(0,229,255,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,0.035) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+  .hero-eyebrow{color:var(--accent)}.hero-eyebrow::before{background:var(--accent)}
+  .project-hero h1 span{color:var(--accent)}
+  .meta-dot{background:var(--accent)}
+  .block-label{color:var(--accent)}.block-label::before{background:var(--accent)}
+  .demo-tag{color:var(--accent)}
+  .feature-body p{border-color:var(--accent)}
+  .impl-icon{color:var(--accent)}
+  .impl-item:hover{border-color:rgba(0,229,255,0.3)}
+  .arch-num{color:var(--accent)}
+  .metric-val{color:var(--text)}.metric-val .unit{color:var(--accent)}
+  .stack-tag{font-family:var(--mono);font-size:0.72rem;padding:0.3rem 0.65rem;background:rgba(0,229,255,0.07);border:1px solid rgba(0,229,255,0.2);color:#67e8f9;letter-spacing:0.04em}
+  .link-btn:hover{border-color:rgba(0,229,255,0.4);color:var(--accent)}
+  .link-btn.primary{border-color:rgba(0,229,255,0.4);color:var(--accent)}
+  .link-btn.primary:hover{background:rgba(0,229,255,0.1)}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">PM_</a>
+  <a href="index.html#projects" class="nav-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back to Portfolio
+  </a>
+</nav>
+
+<div class="project-hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Computer Vision &middot; Mobile AI</div>
+    <h1>Pothole Detection <span>AI</span></h1>
+    <p>Real-time road safety system using YOLOv8n. Detects potholes on-device, logs GPS coordinates, and warns drivers via voice alerts — deployed as both an Android app and PWA.</p>
+    <div class="hero-meta">
+      <div class="meta-item"><span class="meta-dot"></span> YOLOv8n</div>
+      <div class="meta-item"><span class="meta-dot"></span> 82.2% mAP</div>
+      <div class="meta-item"><span class="meta-dot"></span> ~41ms CPU inference</div>
+      <div class="meta-item"><span class="meta-dot"></span> Android + PWA</div>
+    </div>
+  </div>
+</div>
+
+<div class="page-body">
+  <div class="left-col">
+
+    <div class="reveal">
+      <div class="block-label">Live Demo</div>
+      <div class="block-title">Project Demo Video</div>
+      <div class="yt-wrapper">
+        <iframe src="https://www.youtube.com/embed/j16wN9h2V9I" title="Pothole Detection AI Demo" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="demo-caption">// Real-time pothole detection running on Android device with GPS logging and voice alerts</p>
+    </div>
+
+    <div class="reveal">
+      <div class="block-label">Capabilities</div>
+      <div class="block-title">Key Features</div>
+      <div class="features-list">
+        <div class="feature-item open">
+          <div class="feature-header" onclick="toggleFeature(this)"><span class="feature-arrow" style="color:var(--accent)">▶</span><span class="feature-title">On-Device Real-Time Detection</span></div>
+          <div class="feature-body"><p>YOLOv8n model exported to ONNX and runs entirely on-device — no cloud, no latency. Achieves ~41ms inference on CPU hardware for true real-time detection at highway speeds.</p></div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-header" onclick="toggleFeature(this)"><span class="feature-arrow" style="color:var(--accent)">▶</span><span class="feature-title">GPS Coordinate Logging</span></div>
+          <div class="feature-body"><p>Every detected pothole is tagged with GPS coordinates and logged to a local database, enabling road hazard mapping and crowd-sourced road condition reporting.</p></div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-header" onclick="toggleFeature(this)"><span class="feature-arrow" style="color:var(--accent)">▶</span><span class="feature-title">Voice Alert System</span></div>
+          <div class="feature-body"><p>Hands-free audio alerts fire when a pothole is detected ahead, keeping the driver's eyes on the road. Alert timing is tuned to give adequate reaction time at typical driving speeds.</p></div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-header" onclick="toggleFeature(this)"><span class="feature-arrow" style="color:var(--accent)">▶</span><span class="feature-title">82.2% mAP Accuracy</span></div>
+          <div class="feature-body"><p>Trained on a custom dataset of road surface imagery. Achieves 82.2% mean average precision — balancing detection sensitivity with false-positive suppression for practical deployment.</p></div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-header" onclick="toggleFeature(this)"><span class="feature-arrow" style="color:var(--accent)">▶</span><span class="feature-title">Dual Deployment: Android + PWA</span></div>
+          <div class="feature-body"><p>Ships as a native Android app (Kotlin) for full hardware access, plus a Progressive Web App for zero-install browser-based access — same model, two delivery targets.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="block-label">How It Works</div>
+      <div class="block-title">Technical Implementation</div>
+      <div class="impl-list">
+        <div class="impl-item"><span class="impl-icon" style="color:var(--accent)">[01]</span><div class="impl-text"><strong>Model Training</strong><span>YOLOv8n fine-tuned on custom pothole dataset. Data augmentation: flips, mosaic, HSV jitter to improve generalization across lighting and road surface conditions.</span></div></div>
+        <div class="impl-item"><span class="impl-icon" style="color:var(--accent)">[02]</span><div class="impl-text"><strong>ONNX Export & Optimization</strong><span>Model exported to ONNX format for cross-platform inference. Quantization-aware export keeps model size minimal while preserving accuracy for mobile hardware.</span></div></div>
+        <div class="impl-item"><span class="impl-icon" style="color:var(--accent)">[03]</span><div class="impl-text"><strong>Android Integration (Kotlin)</strong><span>ONNX Runtime Android library runs inference on each camera frame. Camera2 API provides low-latency frame capture. Detection results overlaid via custom Canvas renderer.</span></div></div>
+        <div class="impl-item"><span class="impl-icon" style="color:var(--accent)">[04]</span><div class="impl-text"><strong>GPS & Alert Pipeline</strong><span>Android Location API fuses GPS + network positioning. Detected pothole events trigger TextToSpeech alerts and write to SQLite with timestamp + coordinates.</span></div></div>
+        <div class="impl-item"><span class="impl-icon" style="color:var(--accent)">[05]</span><div class="impl-text"><strong>PWA Deployment</strong><span>Web version uses ONNX.js in the browser for client-side inference. Service Worker enables offline capability and installable app experience on any device.</span></div></div>
+      </div>
+    </div>
+
+  </div>
+  <div class="right-col">
+    <div class="sidebar-card reveal">
+      <div class="sidebar-card-title">Performance Metrics</div>
+      <div class="metrics-grid">
+        <div class="metric-cell"><span class="metric-val">82.2<span class="unit" style="color:var(--accent)">%</span></span><span class="metric-key">mAP Score</span></div>
+        <div class="metric-cell"><span class="metric-val">41<span class="unit" style="color:var(--accent)">ms</span></span><span class="metric-key">CPU Inference</span></div>
+        <div class="metric-cell"><span class="metric-val">2<span class="unit" style="color:var(--accent)">x</span></span><span class="metric-key">Deploy Targets</span></div>
+        <div class="metric-cell"><span class="metric-val">0<span class="unit" style="color:var(--accent)">☁</span></span><span class="metric-key">Cloud Needed</span></div>
+      </div>
+    </div>
+    <div class="sidebar-card reveal">
+      <div class="sidebar-card-title">Tech Stack</div>
+      <div class="stack-tags">
+        <span class="stack-tag">YOLOv8n</span><span class="stack-tag">ONNX</span><span class="stack-tag">Android/Kotlin</span><span class="stack-tag">Python</span><span class="stack-tag">GPS API</span><span class="stack-tag">Camera2</span><span class="stack-tag">PWA</span><span class="stack-tag">ONNX.js</span>
+      </div>
+    </div>
+    <div class="sidebar-card reveal">
+      <div class="sidebar-card-title">System Architecture</div>
+      <div class="arch-list">
+        <div class="arch-item"><span class="arch-num" style="color:var(--accent)">01</span><div class="arch-text"><strong>Camera Layer</strong>Camera2 API captures frames at target FPS, feeds to inference pipeline</div></div>
+        <div class="arch-item"><span class="arch-num" style="color:var(--accent)">02</span><div class="arch-text"><strong>Inference Engine</strong>ONNX Runtime runs YOLOv8n on-device — bounding boxes + confidence scores</div></div>
+        <div class="arch-item"><span class="arch-num" style="color:var(--accent)">03</span><div class="arch-text"><strong>Alert System</strong>Detections above threshold trigger TTS voice alerts</div></div>
+        <div class="arch-item"><span class="arch-num" style="color:var(--accent)">04</span><div class="arch-text"><strong>Logging Layer</strong>GPS + detection events written to SQLite for hazard mapping</div></div>
+      </div>
+    </div>
+    <div class="sidebar-card reveal">
+      <div class="sidebar-card-title">Project Links</div>
+      <div class="link-btns">
+        <a href="https://github.com/poojithamadhyala/Pothole-Detection" class="link-btn primary" target="_blank"><span>GitHub Repository</span><span>&rarr;</span></a>
+        <a href="https://huggingface.co/spaces/poojithamadhyala/pothole-detection" class="link-btn" target="_blank"><span>Live Demo &rarr;</span></a>
+        <a href="https://youtu.be/j16wN9h2V9I" class="link-btn" target="_blank"><span>YouTube Demo &rarr;</span></a>
+        <a href="index.html#projects" class="link-btn"><span>&larr; All Projects</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page-footer">
+  <p>Poojitha Madhyala &middot; Robotics &amp; AI Engineer</p>
+  <nav class="footer-nav" aria-label="Footer navigation">
+    <a href="index.html#about">About</a>
+    <a href="index.html#projects">Projects</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+</div>
+
+
+<script>
+  function toggleFeature(h){h.parentElement.classList.toggle('open')}
+  const obs=new IntersectionObserver((es)=>{es.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*60);obs.unobserve(e.target)}})},{threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+
+</body></html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Agentic RAG Assistant — Poojitha Madhyala</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:#fff;color:#1a1a2e;line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:#4f6ef7;text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* Nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid #eee;padding:14px 40px;display:flex;align-items:center;justify-content:space-between}
+.nav-left{display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px;color:#1a1a2e}
+.nav-left span{font-size:18px}
+.nav-links{display:flex;gap:20px;font-size:13px}
+.nav-links a{color:#666;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:#1a1a2e;text-decoration:none}
+
+/* Hero */
+.hero{padding:120px 40px 50px;max-width:820px;margin:0 auto;text-align:center}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 16px;border-radius:20px;background:#f0f0ff;color:#4f6ef7;font-size:12px;font-weight:600;letter-spacing:.3px;margin-bottom:20px}
+.hero h1{font-size:clamp(28px,5vw,44px);font-weight:800;letter-spacing:-1px;line-height:1.2;margin-bottom:16px;color:#1a1a2e}
+.hero p{font-size:17px;color:#555;max-width:600px;margin:0 auto 28px;line-height:1.7}
+.hero-links{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:10px;font-size:14px;font-weight:600;transition:all .2s}
+.btn-primary{background:#1a1a2e;color:#fff}
+.btn-primary:hover{background:#2d2d44;text-decoration:none}
+.btn-outline{background:#fff;color:#1a1a2e;border:1.5px solid #ddd}
+.btn-outline:hover{border-color:#4f6ef7;text-decoration:none}
+
+/* Demo */
+.demo{max-width:820px;margin:0 auto;padding:0 40px 50px}
+.demo img,.demo-placeholder{width:100%;border-radius:14px;border:1px solid #eee;box-shadow:0 4px 24px rgba(0,0,0,.06)}
+.demo-placeholder{padding:60px 32px;text-align:center;color:#999;font-size:14px;background:#fafafa}
+
+/* Section */
+.section{max-width:820px;margin:0 auto;padding:50px 40px}
+.section h2{font-size:22px;font-weight:700;color:#1a1a2e;margin-bottom:24px;display:flex;align-items:center;gap:10px}
+.section h2 span{font-size:22px}
+
+/* Flow */
+.flow-box{background:#fafafa;border:1px solid #eee;border-radius:14px;padding:28px;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:2.1;color:#555;overflow-x:auto}
+.flow-box .hl{color:#4f6ef7;font-weight:500}
+.flow-box .gr{color:#16a34a;font-weight:500}
+.flow-box .am{color:#d97706}
+
+/* Feature grid */
+.feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.feature-card{background:#fafafa;border:1px solid #eee;border-radius:14px;padding:22px}
+.feature-card h3{font-size:14px;font-weight:700;color:#1a1a2e;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.feature-card h3 span{font-size:16px}
+.feature-card p{font-size:13px;color:#666;line-height:1.6}
+
+/* Eval table */
+.eval-table{width:100%;border-collapse:collapse;border-radius:14px;overflow:hidden;border:1px solid #eee}
+.eval-table th{text-align:left;padding:12px 20px;font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:#999;background:#fafafa;border-bottom:1px solid #eee;font-weight:600}
+.eval-table td{padding:12px 20px;font-size:14px;border-bottom:1px solid #f5f5f5}
+.eval-table tr:last-child td{border-bottom:none}
+.score{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:18px;color:#16a34a}
+
+/* Architecture grid */
+.arch-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.arch-item{background:#fafafa;border:1px solid #eee;border-radius:10px;padding:14px 18px}
+.arch-item .file{font-family:'JetBrains Mono',monospace;font-size:12px;color:#4f6ef7;font-weight:500;margin-bottom:2px}
+.arch-item .desc{font-size:12px;color:#888}
+
+/* Tech tags */
+.tech-tags{display:flex;flex-wrap:wrap;gap:8px}
+.tech-tag{padding:6px 14px;border-radius:20px;background:#f5f5f5;font-size:12px;font-weight:500;color:#555;border:1px solid #eee;transition:all .2s}
+.tech-tag:hover{background:#f0f0ff;border-color:#4f6ef7;color:#4f6ef7}
+
+/* Footer */
+.footer{max-width:820px;margin:0 auto;padding:50px 40px;text-align:center;border-top:1px solid #eee}
+.footer p{font-size:13px;color:#999}
+.footer-links{display:flex;gap:16px;justify-content:center;margin-top:10px;font-size:13px}
+
+@media(max-width:640px){
+  .hero{padding:100px 20px 40px}
+  .section,.demo{padding-left:20px;padding-right:20px}
+  .feature-grid,.arch-grid{grid-template-columns:1fr}
+  .nav{padding:12px 20px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-left" href="index.html"><span>PM.</span> Poojitha Madhyala</a>
+  <div class="nav-links">
+    <a href="index.html">← Portfolio</a>
+    <a href="https://github.com/poojithamadhyala/agentic-rag-assistant" target="_blank">GitHub</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">🤖 AI / LLM Project</div>
+  <h1>Agentic RAG Assistant</h1>
+  <p>An AI that doesn't just generate answers — it searches a knowledge base, retrieves evidence, reasons over it, and gives you a cited, structured answer. All in one autonomous loop.</p>
+  <div class="hero-links">
+    <a class="btn btn-primary" href="https://github.com/poojithamadhyala/agentic-rag-assistant" target="_blank">View on GitHub →</a>
+    <a class="btn btn-outline" href="index.html">← Back to Portfolio</a>
+  </div>
+</section>
+
+<section class="demo">
+  <!-- Replace with your actual demo GIF when ready -->
+  <div class="demo-placeholder">🎬 Demo GIF — run the app at localhost:8000, screen-record a question, and add as <code>assets/agentic-rag-demo.gif</code></div>
+</section>
+
+<section class="section">
+  <h2><span>⚡</span> How It Works</h2>
+  <div class="flow-box">
+    <span class="hl">You ask:</span> "What is the default MuJoCo timestep?"<br/><br/>
+    <span class="am">→ Agent reads question</span><br/>
+    <span class="am">→ Calls search_docs tool</span> → Vector Store (cosine similarity)<br/>
+    <span class="am">→ Gets top-k matching chunks</span> ← relevant passages returned<br/>
+    <span class="am">→ Reasons over evidence</span><br/>
+    <span class="am">→ Returns structured JSON:</span><br/><br/>
+    {<br/>
+    &nbsp;&nbsp;<span class="gr">"answer"</span>: "0.002 seconds (500 Hz)",<br/>
+    &nbsp;&nbsp;<span class="gr">"citations"</span>: [{"doc_id": "mujoco_basics", "chunk_id": "a3f2b1"}],<br/>
+    &nbsp;&nbsp;<span class="gr">"confidence"</span>: "high"<br/>
+    }
+  </div>
+</section>
+
+<section class="section">
+  <h2><span>✨</span> What Makes This Different</h2>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <h3><span>🔄</span> Agentic Loop</h3>
+      <p>Multi-turn tool-use loop: the LLM plans, calls tools, evaluates results, and can search again — not a one-shot pipeline. Hard budget of 6 tool calls controls cost.</p>
+    </div>
+    <div class="feature-card">
+      <h3><span>✅</span> Validated Output</h3>
+      <p>Every response is parsed into a Pydantic schema with answer, citations, confidence, and tools_used. Malformed LLM output is caught, never propagated.</p>
+    </div>
+    <div class="feature-card">
+      <h3><span>📊</span> Eval Framework</h3>
+      <p>8 labeled eval cases with Hit@k and MRR scoring. CI threshold gate (Hit@4 &lt; 0.8 = failure) catches retrieval regressions before they ship.</p>
+    </div>
+    <div class="feature-card">
+      <h3><span>🧪</span> Mocked Tests</h3>
+      <p>Dependency-injected LLM client — 5 unit tests run the full tool-calling path without API keys, in under a second. Zero flaky external calls in CI.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2><span>📊</span> Evaluation Results</h2>
+  <table class="eval-table">
+    <thead><tr><th>Metric</th><th>Score</th></tr></thead>
+    <tbody>
+      <tr><td>Hit@4</td><td><span class="score">1.00</span></td></tr>
+      <tr><td>MRR (Mean Reciprocal Rank)</td><td><span class="score">1.00</span></td></tr>
+      <tr><td>Eval Cases</td><td>8 labeled questions</td></tr>
+      <tr><td>Unit Tests</td><td>5 passing (no API key needed)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="section">
+  <h2><span>🏗️</span> Architecture</h2>
+  <div class="arch-grid">
+    <div class="arch-item"><div class="file">agent.py</div><div class="desc">Multi-turn LLM ↔ tool loop, structured output parsing</div></div>
+    <div class="arch-item"><div class="file">tools.py</div><div class="desc">search_docs (retrieval) + calculate (safe arithmetic)</div></div>
+    <div class="arch-item"><div class="file">vectorstore.py</div><div class="desc">Cosine similarity search, NumPy vectors, persistent</div></div>
+    <div class="arch-item"><div class="file">chunking.py</div><div class="desc">Paragraph-aware splitter with overlap</div></div>
+    <div class="arch-item"><div class="file">schemas.py</div><div class="desc">Pydantic models for every data boundary</div></div>
+    <div class="arch-item"><div class="file">api.py</div><div class="desc">FastAPI REST service with demo UI</div></div>
+    <div class="arch-item"><div class="file">run_eval.py</div><div class="desc">Hit@k + MRR harness with CI threshold gate</div></div>
+    <div class="arch-item"><div class="file">test_pipeline.py</div><div class="desc">5 unit tests with mock LLM client</div></div>
+  </div>
+</section>
+
+<section class="section">
+  <h2><span>🛠️</span> Tech Stack</h2>
+  <div class="tech-tags">
+    <span class="tech-tag">Anthropic Claude API</span>
+    <span class="tech-tag">Python</span>
+    <span class="tech-tag">FastAPI</span>
+    <span class="tech-tag">Pydantic</span>
+    <span class="tech-tag">NumPy</span>
+    <span class="tech-tag">Tool Use / Function Calling</span>
+    <span class="tech-tag">RAG Pipeline</span>
+    <span class="tech-tag">Cosine Similarity</span>
+    <span class="tech-tag">sentence-transformers</span>
+    <span class="tech-tag">pytest</span>
+    <span class="tech-tag">Docker</span>
+    <span class="tech-tag">Hit@k / MRR Eval</span>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>© 2026 Poojitha Madhyala · Robotics & AI Engineer</p>
+  <div class="footer-links">
+    <a href="https://linkedin.com/in/poojitha-madhyala" target="_blank">LinkedIn</a>
+    <a href="https://github.com/poojithamadhyala" target="_blank">GitHub</a>
+    <a href="index.html">Portfolio</a>
+  </div>
+</footer>
+
+</body>
+</html>
